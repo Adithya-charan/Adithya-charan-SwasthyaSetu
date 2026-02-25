@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'sm' | 'md' | 'lg' | 'icon';
     href?: string;
     isFullWidth?: boolean;
 }
@@ -30,6 +30,7 @@ export function Button({
         sm: "px-3 py-1.5 text-sm",
         md: "px-5 py-2.5 text-base",
         lg: "px-8 py-3.5 text-lg",
+        icon: "p-2 w-10 h-10",
     };
 
     const width = isFullWidth ? "w-full" : "";

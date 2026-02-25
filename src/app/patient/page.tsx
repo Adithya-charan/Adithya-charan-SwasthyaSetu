@@ -10,7 +10,7 @@ export default function PatientDashboard() {
                     <h1 className="text-2xl font-bold text-slate-900">Hello, Sarah! 👋</h1>
                     <p className="text-slate-500">Here's your health overview for today.</p>
                 </div>
-                <Button href="/patient/book-appointment" className="gap-2">
+                <Button href="/patient/appointments" className="gap-2">
                     <Calendar className="w-4 h-4" /> Book Appointment
                 </Button>
             </div>
@@ -40,7 +40,7 @@ export default function PatientDashboard() {
                     </div>
                     <h3 className="text-2xl font-bold text-slate-900">Lab Results</h3>
                     <p className="text-slate-500 text-sm mb-4">Blood Work • Mar 12, 2024</p>
-                    <Button size="sm" variant="ghost" className="w-full gap-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50">
+                    <Button size="sm" variant="ghost" className="w-full gap-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50" href="/patient/records">
                         View Report <ArrowUpRight className="w-4 h-4" />
                     </Button>
                 </div>
@@ -54,7 +54,7 @@ export default function PatientDashboard() {
                     </div>
                     <h3 className="text-2xl font-bold text-slate-900">Prescriptions</h3>
                     <p className="text-slate-500 text-sm mb-4">2 Active Medications</p>
-                    <Button size="sm" variant="ghost" className="w-full gap-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50">
+                    <Button size="sm" variant="ghost" className="w-full gap-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50" href="/patient/prescriptions">
                         Manage <ArrowUpRight className="w-4 h-4" />
                     </Button>
                 </div>
@@ -64,7 +64,7 @@ export default function PatientDashboard() {
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                     <h2 className="font-bold text-lg text-slate-900">Recent Appointments</h2>
-                    <Button variant="ghost" size="sm" className="text-primary-600">View All</Button>
+                    <Button variant="ghost" size="sm" className="text-primary-600" href="/patient/appointments">View All</Button>
                 </div>
                 <div className="divide-y divide-slate-100">
                     {[1, 2, 3].map((i) => (

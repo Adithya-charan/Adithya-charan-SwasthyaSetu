@@ -6,7 +6,7 @@ import { AuthProvider } from '@/context/AuthContext';
 const manrope = Manrope({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'TeleHealth Pro - Virtual Consultation',
+    title: 'SwasthyaSetu - Virtual Health Platform',
     description: 'Connect with doctors, manage prescriptions, and track your health.',
 }
 

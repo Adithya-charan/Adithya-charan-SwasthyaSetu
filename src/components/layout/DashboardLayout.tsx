@@ -58,7 +58,7 @@ export function SideNav({ role }: { role: 'patient' | 'doctor' | 'pharmacist' | 
         <div className="flex flex-col h-full bg-white border-r border-slate-200 w-64 fixed left-0 top-0 bottom-0 z-40 hidden md:flex">
             <div className="p-6 border-b border-slate-100 flex items-center gap-2">
                 <Activity className="w-8 h-8 text-primary-500" />
-                <span className="text-xl font-bold text-slate-900">TeleHealth</span>
+                <span className="text-xl font-bold text-slate-900">SwasthyaSetu</span>
             </div>
 
             <div className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
@@ -135,7 +135,7 @@ export default function DashboardLayout({
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-slate-200 sticky top-0 z-30">
                 <div className="flex items-center gap-2 font-bold text-slate-900">
-                    <Activity className="w-6 h-6 text-primary-500" /> TeleHealth
+                    <Activity className="w-6 h-6 text-primary-500" /> SwasthyaSetu
                 </div>
                 <button onClick={() => setIsMobileOpen(!isMobileOpen)}>
                     {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

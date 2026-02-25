@@ -11,7 +11,7 @@ export default function Home() {
                         <div className="p-2 bg-primary-50 rounded-lg">
                             <Activity className="w-6 h-6 text-primary-600" />
                         </div>
-                        <span className="text-xl font-bold text-slate-900">TeleHealth Pro</span>
+                        <span className="text-xl font-bold text-slate-900">SwasthyaSetu</span>
                     </div>
 
                     <div className="hidden md:flex items-center gap-8">
@@ -176,7 +176,7 @@ export default function Home() {
                         <div className="col-span-1 md:col-span-2">
                             <div className="flex items-center gap-2 mb-4 text-white">
                                 <Activity className="w-6 h-6 text-primary-500" />
-                                <span className="text-xl font-bold">TeleHealth Pro</span>
+                                <span className="text-xl font-bold">SwasthyaSetu</span>
                             </div>
                             <p className="text-slate-400 max-w-sm">
                                 Making healthcare accessible, affordable, and seamless for everyone through technology.
@@ -199,7 +199,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="text-center text-slate-500 text-sm">
-                        © 2024 TeleHealth Pro. All rights reserved.
+                        © 2024 SwasthyaSetu. All rights reserved.
                     </div>
                 </div>
             </footer>

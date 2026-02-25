@@ -18,7 +18,7 @@ export default function AdminDashboard() {
     const [activities, setActivities] = useState<LoginActivity[]>([]);
 
     useEffect(() => {
-        const socket = io('http://localhost:5000');
+        const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5000');
 
         socket.on('new_login', (data: LoginActivity) => {
             setActivities(prev => [data, ...prev].slice(0, 10)); // Keep last 10
@@ -30,8 +30,12 @@ export default function AdminDashboard() {
         };
     }, []);
 
-    const formatTime = (isoString: string) => {
-        return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const formatDateTime = (isoString: string) => {
+        const date = new Date(isoString);
+        return {
+            date: date.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' }),
+            time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        };
     };
 
     return (
@@ -97,33 +101,50 @@ export default function AdminDashboard() {
                             </span>
                             <h3 className="font-bold text-lg">Real-Time Login Activity</h3>
                         </div>
-                        <div className="text-xs text-slate-500">Live Feed</div>
+                        <div className="text-xs text-slate-500 font-medium">Live Stream</div>
                     </div>
                     <div className="divide-y divide-slate-100 max-h-[400px] overflow-y-auto">
                         {activities.length === 0 ? (
-                            <div className="p-8 text-center text-slate-500">
+                            <div className="p-8 text-center text-slate-500 italic">
                                 No recent login activity detected.
                             </div>
                         ) : (
-                            activities.map((activity, index) => (
-                                <div key={index} className="p-4 hover:bg-slate-50 transition-colors animate-in slide-in-from-top-2">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
-                                                <img src={activity.image || `https://i.pravatar.cc/150?u=${activity.id}`} alt={activity.name} className="w-full h-full object-cover" />
+                            activities.map((activity, index) => {
+                                const dt = formatDateTime(activity.timestamp);
+                                return (
+                                    <div key={index} className="px-6 py-4 hover:bg-slate-50 transition-colors animate-in slide-in-from-top-2 border-l-4 border-transparent hover:border-primary-500">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-full border-2 border-slate-100 overflow-hidden shadow-sm">
+                                                    <img src={activity.image || `https://i.pravatar.cc/150?u=${activity.id}`} alt={activity.name} className="w-full h-full object-cover" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-slate-900">{activity.name}</p>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${activity.role === 'admin' ? 'bg-red-100 text-red-700' :
+                                                            activity.role === 'doctor' ? 'bg-purple-100 text-purple-700' :
+                                                                activity.role === 'pharmacist' ? 'bg-orange-100 text-orange-700' :
+                                                                    'bg-blue-100 text-blue-700'
+                                                            }`}>
+                                                            {activity.role}
+                                                        </span>
+                                                        <span className="text-[10px] text-slate-400">• New Session</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900">{activity.name}</p>
-                                                <p className="text-xs text-slate-500 capitalize">{activity.role}</p>
+                                            <div className="text-right">
+                                                <div className="flex items-center gap-1.5 text-slate-900 font-semibold text-sm">
+                                                    <Clock className="w-3.5 h-3.5 text-primary-500" />
+                                                    {dt.time}
+                                                </div>
+                                                <div className="text-[11px] text-slate-400 font-medium">
+                                                    {dt.date}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-slate-500 text-sm">
-                                            <Clock className="w-4 h-4" />
-                                            {formatTime(activity.timestamp)}
                                         </div>
                                     </div>
-                                </div>
-                            ))
+                                );
+                            })
                         )}
                     </div>
                 </div>

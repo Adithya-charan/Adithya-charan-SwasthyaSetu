@@ -28,13 +28,13 @@ export default function SignupPage() {
                     <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')] bg-cover opacity-20 mix-blend-overlay"></div>
                     <div className="relative z-10 h-full flex flex-col justify-between">
                         <div className="flex items-center gap-2">
-                            <Activity className="w-6 h-6" /> <span className="font-bold text-lg">TeleHealth</span>
+                            <Activity className="w-6 h-6" /> <span className="font-bold text-lg">SwasthyaSetu</span>
                         </div>
                         <div>
                             <h2 className="text-3xl font-bold mb-4">Join the Future of Healthcare</h2>
                             <p className="text-primary-100">Connect with top specialists and manage your health seamlessly.</p>
                         </div>
-                        <div className="text-sm text-primary-200">© 2024 TeleHealth Pro</div>
+                        <div className="text-sm text-primary-200">© 2024 SwasthyaSetu</div>
                     </div>
                 </div>
 

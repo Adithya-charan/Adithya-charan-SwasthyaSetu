@@ -1,10 +1,40 @@
 'use client';
 import { useState } from 'react';
-import { Pill, AlertCircle, Clock, CheckCircle, Search, Filter, Download, MoreVertical, FileText } from 'lucide-react';
+import { Pill, AlertCircle, Clock, CheckCircle, Search, Filter, Download, MoreVertical, MessageCircle, Send, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function PrescriptionsPage() {
     const [filter, setFilter] = useState('All');
+    const [selectedChat, setSelectedChat] = useState<any>(null);
+    const [message, setMessage] = useState('');
+    const [chatHistory, setChatHistory] = useState<any[]>([
+        { id: 1, sender: 'pharmacist', text: 'Hello! I see you have a pending refill for Amoxicillin. Would you like me to process it?', time: '10:30 AM' }
+    ]);
+
+    const handleSendMessage = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!message.trim()) return;
+
+        const newMessage = {
+            id: Date.now(),
+            sender: 'patient',
+            text: message,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        setChatHistory([...chatHistory, newMessage]);
+        setMessage('');
+
+        // Simulate pharmacist response
+        setTimeout(() => {
+            setChatHistory(prev => [...prev, {
+                id: Date.now() + 1,
+                sender: 'pharmacist',
+                text: 'Thank you for your message. I am looking into your request and will update you shortly.',
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }]);
+        }, 1500);
+    };
 
     const stats = [
         { label: 'Active', value: '4', sub: 'Medications', icon: Pill, color: 'bg-blue-50 text-blue-600' },
@@ -127,6 +157,13 @@ export default function PrescriptionsPage() {
                                             {med.status === 'Expired' && <Button size="sm" variant="ghost" className="text-slate-500">Request New</Button>}
                                             {med.status === 'Refill Pending' && <Button size="sm" variant="outline" disabled className="bg-slate-50">Awaiting Doc</Button>}
 
+                                            <button
+                                                onClick={() => setSelectedChat(med)}
+                                                className="p-2 text-primary-500 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-colors title='Message Pharmacist'"
+                                            >
+                                                <MessageCircle className="w-5 h-5" />
+                                            </button>
+
                                             <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
                                                 <MoreVertical className="w-4 h-4" />
                                             </button>
@@ -151,10 +188,62 @@ export default function PrescriptionsPage() {
                 </div>
             </div>
 
-            {/* Need Help Card */}
-            <div className="fixed bottom-6 left-6 w-64 md:hidden">
-                {/* Mobile floating action button could go here */}
-            </div>
+            {/* Chat Box Popup */}
+            {selectedChat && (
+                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end justify-end p-4 md:p-6 transition-all animate-in fade-in duration-200">
+                    <div className="bg-white w-full max-w-md h-[500px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right-10 duration-300">
+                        {/* Chat Header */}
+                        <div className="bg-primary-600 p-4 text-white flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                    <User className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-sm">Pharmacist</h3>
+                                    <p className="text-xs text-primary-100">Regarding: {selectedChat.name}</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setSelectedChat(null)} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Chat Messages */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+                            {chatHistory.map((msg) => (
+                                <div key={msg.id} className={`flex ${msg.sender === 'patient' ? 'justify-end' : 'justify-start'}`}>
+                                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.sender === 'patient'
+                                        ? 'bg-primary-600 text-white rounded-tr-none shadow-md shadow-primary-200'
+                                        : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
+                                        }`}>
+                                        <p>{msg.text}</p>
+                                        <p className={`text-[10px] mt-1 ${msg.sender === 'patient' ? 'text-primary-100' : 'text-slate-400'}`}>
+                                            {msg.time}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Chat Input */}
+                        <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-slate-100 flex gap-2">
+                            <input
+                                type="text"
+                                placeholder="Type your message..."
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            />
+                            <button
+                                type="submit"
+                                className="p-2.5 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors shadow-lg shadow-primary-200"
+                            >
+                                <Send className="w-5 h-5" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

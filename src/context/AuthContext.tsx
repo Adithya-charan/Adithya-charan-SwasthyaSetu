@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     console.log("LOGIN: Initializing socket connection...");
                     const socketIO = await import('socket.io-client');
                     const io = socketIO.default || socketIO;
-                    const socket = io('http://localhost:5000');
+                    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5000');
 
                     socket.on('connect', () => {
                         console.log("LOGIN: Socket connected, emitting event");

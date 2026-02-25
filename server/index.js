@@ -13,13 +13,13 @@ app.use(cors());
 app.use(express.json());
 
 // Database Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/virtual-medical')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/swasthyasetu')
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
 // Routes Placeholder
 app.get('/', (req, res) => {
-    res.send('Virtual Medical System API Running');
+    res.send('SwasthyaSetu API Running');
 });
 
 // Auth Routes (Placeholder)
@@ -36,7 +36,7 @@ const server = app.listen(PORT, () => {
 // WebRTC Socket.io Setup
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.CLIENT_URL || "http://localhost:3000",
         methods: ["GET", "POST"]
     }
 });
